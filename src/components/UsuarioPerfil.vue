@@ -25,6 +25,22 @@
       </div>
   </card>
       </div>
+      <div class="col-xl-8 col-lg-7 col-md-6">
+        <card class="card" title="Actualizar Perfil">
+          <div class="row">
+          <div class="col-md-6">
+            <p-button type="info" round>
+            Actualizar Foto
+            </p-button>
+          </div>
+          <div class="col-md-6">
+            <p-button type="success" round>
+            Guardar Cambios
+            </p-button>
+          </div>
+        </div>
+        </card>
+      </div>
     </div>
     </template>
   </div>

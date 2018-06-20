@@ -8,14 +8,17 @@ import { store } from './store'
 import BootstrapVue from 'bootstrap-vue'
 import firebase from 'firebase'
 import PaperDashboard from './plugins/paperDashboard'
-import Schedule from './services/actualizar'
+import schedule from 'node-schedule'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+console.log('iniciando vuejs(?')
+schedule.scheduleJob('39 14 * * *', () => {
+  console.log('hellooo world')
+})
 
 Vue.use(VueFire)
 Vue.use(PaperDashboard)
 Vue.use(BootstrapVue)
-Schedule()
 // Vue.use(Schedule)
 Vue.config.productionTip = false
 const unsubscribe = firebase.auth().onAuthStateChanged((user) => {

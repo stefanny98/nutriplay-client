@@ -84,7 +84,7 @@ export const store = new Vuex.Store({
           })
           var isNew = result.additionalUserInfo.isNewUser
           if (isNew) {
-            firebase.database().ref('usuario').child(user.uid).set({nombre: user.displayName, exp: 0, monedas: 0, avatar: 'http://..', correo: email})
+            firebase.database().ref('usuario').child(user.uid).set({nombre: user.displayName, exp: 0, monedas: 0, avatar: user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null, correo: email})
           }
           // router.push('/inicio')
           // Redirección
