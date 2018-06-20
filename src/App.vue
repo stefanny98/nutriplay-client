@@ -21,7 +21,6 @@
 </b-navbar>
     <router-view/>
   </div>  -->
-
   <side-bar>
       <template slot='links'>
       <template v-for='item in menuItems'>
@@ -42,7 +41,7 @@
       </dashboard-content>
       <content-footer></content-footer>
     </div>
- </div>
+</div>
 </div>
 </template>
 
@@ -60,7 +59,6 @@ firebase.initializeApp({
   storageBucket: 'nutriplayapp.appspot.com',
   messagingSenderId: '824738567319'
 })
-
 export default {
   data () {
     return {
@@ -75,6 +73,9 @@ export default {
   computed: {
     appTitle () {
       return this.$store.state.appTitle
+    },
+    ruta () {
+      return this.$router.history.current.path
     },
     isAuth () {
       return this.$store.getters.isAuth
@@ -92,7 +93,9 @@ export default {
             {title: 'Usuarios', path: '/usuarios', icon: 'ti-user'},
             {title: 'Modulos', path: '/modulos', icon: 'ti-bookmark-alt'},
             {title: 'Recetas', path: '/recetas', icon: 'ti-notepad'},
-            {title: 'Juegos', path: '/juegos', icon: 'ti-face-smile'}
+            {title: 'Juegos', path: '/juegos', icon: 'ti-face-smile'},
+            {title: 'Alimentos', path: '/alimentos', icon: 'ti-bag'},
+            {title: 'Tips', path: '/tips', icon: 'ti-check-box'}
           ]
         } else {
           return [

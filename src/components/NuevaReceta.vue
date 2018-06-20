@@ -27,6 +27,7 @@
 
 <script>
 import firebase from 'firebase'
+import router from '@/router'
 const recetasRef = firebase.database().ref('receta')
 const coleccionRecetaRef = firebase.database().ref('coleccion_receta')
 export default {
@@ -70,6 +71,7 @@ export default {
           })
         })
       })
+      router.push('/recetas')
     }
   }
 }

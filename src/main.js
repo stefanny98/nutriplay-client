@@ -8,14 +8,16 @@ import { store } from './store'
 import BootstrapVue from 'bootstrap-vue'
 import firebase from 'firebase'
 import PaperDashboard from './plugins/paperDashboard'
+import Schedule from './services/actualizar'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(VueFire)
 Vue.use(PaperDashboard)
 Vue.use(BootstrapVue)
+Schedule()
+// Vue.use(Schedule)
 Vue.config.productionTip = false
-
 const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
   new Vue({
     el: '#app',

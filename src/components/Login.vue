@@ -2,7 +2,7 @@
   <div class="login">
      <card>
     <b-container><br>
-    <b-alert show variant="danger" dismissible v-model="alert">{{ error }}</b-alert>  
+    <b-alert show variant="danger" dismissible v-model="alert">{{ error }}</b-alert>
     <b-row align-h="center">
     <input type="text" v-model="email" placeholder="Email"><br>
     <input type="password" v-model="password" placeholder="Password"><br>

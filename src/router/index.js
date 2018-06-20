@@ -9,11 +9,17 @@ import NotFound from '@/components/NotFound'
 import Modulo from '@/components/Modulo'
 import Receta from '@/components/Receta'
 import Juego from '@/components/Juego'
+import Alimento from '@/components/Alimento'
+import Tip from '@/components/Tip'
+import NuevoAlimento from '@/components/NuevoAlimento'
 import NuevaReceta from '@/components/NuevaReceta'
 import NuevoModulo from '@/components/NuevoModulo'
 import NuevoJuego from '@/components/NuevoJuego'
+import NuevoTip from '@/components/NuevoTip'
 import EditarReceta from '@/components/EditarReceta'
 import EditarJuego from '@/components/EditarJuego'
+import EditarAlimento from '@/components/EditarAlimento'
+import EditarTip from '@/components/EditarTip'
 import UsuarioHome from '@/components/UsuarioHome'
 import UsuarioPerfil from '@/components/UsuarioPerfil'
 import firebase from 'firebase'
@@ -52,6 +58,42 @@ const router = new Router({
       path: '/modulos',
       name: 'Modulos',
       component: Modulo,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/alimentos',
+      name: 'Alimentos',
+      component: Alimento,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/alimentos/nuevo',
+      name: 'Nuevo Alimento',
+      component: NuevoAlimento,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/alimentos/:id',
+      name: 'Editar Alimento',
+      component: EditarAlimento,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/tips',
+      name: 'Tips',
+      component: Tip,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/tips/nuevo',
+      name: 'Nuevo Tip',
+      component: NuevoTip,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/tips/:id',
+      name: 'Editar Tip',
+      component: EditarTip,
       meta: { requiresAuth: true }
     },
     {
