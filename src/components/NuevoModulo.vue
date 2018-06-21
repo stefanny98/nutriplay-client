@@ -1,26 +1,173 @@
 <template>
   <div class="nuevomodulo">
     <template>
-      <card>
-      <b-container>
-        <b-row align-h="center">
-         <input type="text" v-model="titulo" placeholder="Titulo"><br>
-         <input type="text" v-model="descripcion" placeholder="Descripcion"><br>
-         <input type="file" @change="previewImage" accept="image/*" ref="imagen"><br>
-         <textarea rows="2" v-model="contenido1" placeholder="Primer contenido"></textarea><br>
-         <textarea rows="2" v-model="contenido2" placeholder="Segundo contenido"></textarea><br>
-         </b-row>
-        <b-row align-h="center">
-          <div class="image-preview" v-if="imageData.length > 0">
-          <img class="preview" :src="imageData">
-          </div>
-       </b-row><br>
-        <b-row align-h="around">
-          <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
-          <b-button to="/modulos" variant="danger" class="btn btn-round">Cancelar</b-button>
-        </b-row>
-      </b-container>
+      <div class="row">
+      <div class="col-md-6">
+      <card title="Detalle">
+        <b-container>
+          <b-row align-h="center">
+            <textarea rows="2" v-model="titulo" placeholder="Titulo"></textarea><br>
+            <textarea rows="2" v-model="descripcion" placeholder="Descripcion"></textarea><br>
+           </b-row><br>
+        </b-container>
       </card>
+      </div>
+       <div class="col-md-6">
+        <card title="Contenido">
+        <b-container>
+          <b-row align-h="center">
+           <textarea rows="2" v-model="contenido1" placeholder="Primer contenido"></textarea><br>
+           <textarea rows="2" v-model="contenido2" placeholder="Segundo contenido"></textarea><br>
+          </b-row><br>
+        </b-container>
+        </card>   
+       <!--
+        <card title="Agregar Preguntas">
+          <b-container>
+          <b-row align-h="center">
+            <input type="text" v-model="pregunta1" placeholder="Pregunta"><br>
+          </b-row>
+          Alternativas:
+         <b-form-radio-group v-model="alt1">
+           <b-form-radio value="1"></b-form-radio>
+           <input type="text" v-model="alternativa1" placeholder="Alternativa"><br>
+           <b-form-radio value="2"></b-form-radio>
+           <input type="text" v-model="alternativa2" placeholder="Alternativa"><br>
+           <b-form-radio value="3"></b-form-radio>
+           <input type="text" v-model="alternativa3" placeholder="Alternativa">
+         </b-form-radio-group><br>
+         <b-row align-h="center">
+            <input type="text" v-model="pregunta2" placeholder="Pregunta"><br>
+          </b-row>
+          Alternativas:
+         <b-form-radio-group v-model="alt2">
+           <b-form-radio value="1"></b-form-radio>
+           <input type="text" v-model="alternativa1" placeholder="Alternativa"><br>
+           <b-form-radio value="2"></b-form-radio>
+           <input type="text" v-model="alternativa2" placeholder="Alternativa"><br>
+           <b-form-radio value="3"></b-form-radio>
+           <input type="text" v-model="alternativa3" placeholder="Alternativa">
+         </b-form-radio-group><br>
+         <b-row align-h="center">
+            <input type="text" v-model="pregunta3" placeholder="Pregunta"><br>
+          </b-row>
+          Alternativas:
+         <b-form-radio-group v-model="alt3">
+           <b-form-radio value="1"></b-form-radio>
+           <input type="text" v-model="alternativa1" placeholder="Alternativa"><br>
+           <b-form-radio value="2"></b-form-radio>
+           <input type="text" v-model="alternativa2" placeholder="Alternativa"><br>
+           <b-form-radio value="3"></b-form-radio>
+           <input type="text" v-model="alternativa3" placeholder="Alternativa">
+         </b-form-radio-group>
+          </b-container>
+        </card>  -->
+       </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6 col-xl-4">
+        <card title="Módulo">
+          <b-container>
+          <b-row align-h="center">
+           <input type="file" @change="previewImage" accept="image/*" ref="imagen"><br>
+           </b-row>
+          <b-row align-h="center">
+            <div class="image-preview" v-if="imageData.length > 0">
+            <img class="preview" :src="imageData">
+            </div>
+             </b-row><br>
+          </b-container>
+        </card>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <card title="1° Contenido">
+          <b-container>
+          <b-row align-h="center">
+           <input type="file" @change="previewImage" accept="image/*" ref="imagen"><br>
+           </b-row>
+          <b-row align-h="center">
+            <div class="image-preview" v-if="imageData.length > 0">
+            <img class="preview" :src="imageData">
+            </div>
+             </b-row><br>
+          </b-container>
+        </card>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <card title="2do Contenido">
+          <b-container>
+          <b-row align-h="center">
+           <input type="file" @change="previewImage" accept="image/*" ref="imagen"><br>
+           </b-row>
+          <b-row align-h="center">
+            <div class="image-preview" v-if="imageData.length > 0">
+            <img class="preview" :src="imageData">
+            </div>
+             </b-row><br>
+          </b-container>
+        </card>
+      </div>
+      </div>
+      <div class="row">
+      <div class="col-md-6 col-xl-4">
+        <card title="Pregunta 1">
+          <b-container>
+          <b-row align-h="center">
+            <input type="text" v-model="pregunta1" placeholder="Pregunta"><br>
+          </b-row>
+          Alternativas:
+         <b-form-radio-group v-model="alt1">
+           <b-form-radio value="1"></b-form-radio>
+           <input type="text" v-model="alternativa1" placeholder="Alternativa"><br>
+           <b-form-radio value="2"></b-form-radio>
+           <input type="text" v-model="alternativa2" placeholder="Alternativa"><br>
+           <b-form-radio value="3"></b-form-radio>
+           <input type="text" v-model="alternativa3" placeholder="Alternativa">
+         </b-form-radio-group><br>
+       </b-container>
+     </card>
+      </div>
+      <div class="col-md-6 col-xl-4">
+        <card title="Pregunta 2">
+        <b-container>
+        <b-row align-h="center">
+            <input type="text" v-model="pregunta2" placeholder="Pregunta"><br>
+          </b-row>
+          Alternativas:
+         <b-form-radio-group v-model="alt2">
+           <b-form-radio value="1"></b-form-radio>
+           <input type="text" v-model="alternativa1" placeholder="Alternativa"><br>
+           <b-form-radio value="2"></b-form-radio>
+           <input type="text" v-model="alternativa2" placeholder="Alternativa"><br>
+           <b-form-radio value="3"></b-form-radio>
+           <input type="text" v-model="alternativa3" placeholder="Alternativa">
+         </b-form-radio-group><br>
+       </b-container>
+       </card>
+       </div>
+       <div class="col-md-6 col-xl-4">
+         <card title="Pregunta 3">
+        <b-container>
+          <b-row align-h="center">
+            <input type="text" v-model="pregunta3" placeholder="Pregunta"><br>
+          </b-row>
+          Alternativas:
+         <b-form-radio-group v-model="alt3">
+           <b-form-radio value="1"></b-form-radio>
+           <input type="text" v-model="alternativa1" placeholder="Alternativa"><br>
+           <b-form-radio value="2"></b-form-radio>
+           <input type="text" v-model="alternativa2" placeholder="Alternativa"><br>
+           <b-form-radio value="3"></b-form-radio>
+           <input type="text" v-model="alternativa3" placeholder="Alternativa">
+         </b-form-radio-group><br>
+        </b-container>
+      </card>
+       </div>
+      </div>
+      <b-row align-h="around">
+            <b-button to="/modulos" variant="danger" class="btn btn-round">Cancelar</b-button>
+            <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
+          </b-row>
     </template>
   </div>
 </template>
@@ -70,14 +217,14 @@ export default {
 </script>
 <style scoped>
     input {
-    margin: 10px 0;
-    width: 60%;
-    padding: 15px;
+    margin: 8px 0;
+    width: 80%;
+    padding: 10px;
     }
     textarea {
     margin: 10px 0;
-    width: 60%;
-    padding: 15px;
+    width: 80%;
+    padding: 10px;
     }
     p {
     margin-top: 40px;

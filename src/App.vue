@@ -89,7 +89,7 @@ export default {
       return this.$store.state.admin
     },
     menuItems () {
-     /* if (this.isAuth) {
+      /* if (this.isAuth) {
         console.log(this.isAdmin)
         if (this.isAdmin == null) {
           return [ ]
@@ -110,18 +110,18 @@ export default {
         } */
       if (this.isAuth && this.isAdmin) {
         return [
-            {title: 'Usuarios', path: '/usuarios', icon: 'ti-user'},
-            {title: 'Modulos', path: '/modulos', icon: 'ti-bookmark-alt'},
-            {title: 'Recetas', path: '/recetas', icon: 'ti-notepad'},
-            {title: 'Juegos', path: '/juegos', icon: 'ti-face-smile'},
-            {title: 'Alimentos', path: '/alimentos', icon: 'ti-bag'},
-            {title: 'Tips', path: '/tips', icon: 'ti-check-box'}
-          ]
+          {title: 'Usuarios', path: '/usuarios', icon: 'ti-user'},
+          {title: 'Modulos', path: '/modulos', icon: 'ti-bookmark-alt'},
+          {title: 'Recetas', path: '/recetas', icon: 'ti-notepad'},
+          {title: 'Juegos', path: '/juegos', icon: 'ti-face-smile'},
+          {title: 'Alimentos', path: '/alimentos', icon: 'ti-bag'},
+          {title: 'Tips', path: '/tips', icon: 'ti-check-box'}
+        ]
       } else if (this.isAuth && !this.isAdmin) {
-          return [
-            {title: 'Inicio', path: '/paginaprincipal', icon: 'ti-home'},
-            {title: 'Perfil', path: '/perfil', icon: 'ti-user'}
-          ]
+        return [
+          {title: 'Inicio', path: '/paginaprincipal', icon: 'ti-home'},
+          {title: 'Perfil', path: '/perfil', icon: 'ti-user'}
+        ]
       } else {
         return [
           {title: 'Bienvenido', path: '/bienvenido', icon: 'ti-user'},
