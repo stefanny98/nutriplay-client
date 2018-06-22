@@ -35,7 +35,7 @@ const router = new Router({
     children: [ */
     {
       path: '/bienvenido',
-      name: 'HelloWorld',
+      name: 'Bienvenido',
       component: HelloWorld
     },
     {

@@ -23,9 +23,15 @@
   </div>  -->
   <side-bar>
       <template slot='links'>
-      <template v-for='item in menuItems'>
-        <sidebar-link :to='item.path' :name='item.title' :icon='item.icon'/>
-      </template>
+        <li class="nav-item" v-for="route in menuItems">
+    <router-link :to="route.path" class="nav-link" active-class="active">
+        {{ route.title }}
+    </router-link>
+</li>
+     <!--   <template v-for='item in menuItems'>
+     <li class="nav-item">  <a class="nav-link" :to='item.path' :name='item.title'></a></li>
+       <sidebar-link :to='item.path' :name='item.title' :icon='item.icon'/>
+      </template> -->
       <b-container><br>
         <b-row align-h="around">
         <button v-if='isAuth' @click='signout' type="button" class="btn btn-info">Salir</button>
@@ -109,25 +115,30 @@ export default {
           ]
         } */
       if (this.isAuth && this.isAdmin) {
+        console.log('Administrador')
         return [
           {title: 'Usuarios', path: '/usuarios', icon: 'ti-user'},
-          {title: 'Modulos', path: '/modulos', icon: 'ti-bookmark-alt'},
           {title: 'Recetas', path: '/recetas', icon: 'ti-notepad'},
           {title: 'Juegos', path: '/juegos', icon: 'ti-face-smile'},
           {title: 'Alimentos', path: '/alimentos', icon: 'ti-bag'},
+          {title: 'Modulos', path: '/modulos', icon: 'ti-bookmark-alt'},
           {title: 'Tips', path: '/tips', icon: 'ti-check-box'}
         ]
       } else if (this.isAuth && !this.isAdmin) {
+        console.log('Usuarios')
         return [
           {title: 'Inicio', path: '/paginaprincipal', icon: 'ti-home'},
           {title: 'Perfil', path: '/perfil', icon: 'ti-user'}
         ]
-      } else {
+      } else if (!this.isAuth) {
+        console.log('No autorizado')
         return [
           {title: 'Bienvenido', path: '/bienvenido', icon: 'ti-user'},
           {title: 'Login', path: '/login', icon: 'ti-user'},
           {title: 'Registro', path: '/registro', icon: 'ti-user'}
         ]
+      } else {
+        return [ ]
       }
     }
   },
@@ -144,31 +155,4 @@ export default {
 }
 </script>
 <style lang="scss">
-.vue-notifyjs.notifications {
-  .alert {
-    z-index: 10000;
-  }
-  .list-move {
-    transition: transform 0.3s, opacity 0.4s;
-  }
-  .list-item {
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .list-enter-active {
-    transition: transform 0.2s ease-in, opacity 0.4s ease-in;
-  }
-  .list-leave-active {
-    transition: transform 1s ease-out, opacity 0.4s ease-out;
-  }
-
-  .list-enter {
-    opacity: 0;
-    transform: scale(1.1);
-  }
-  .list-leave-to {
-    opacity: 0;
-    transform: scale(1.2, 0.7);
-  }
-}
 </style>
