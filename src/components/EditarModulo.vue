@@ -1,5 +1,5 @@
 <template>
-  <div class="nuevomodulo">
+  <div class="editarmodulo">
     <template>
       <div class="row">
       <div class="col-md-6">
@@ -125,7 +125,7 @@
       </div>
       <b-row align-h="around">
             <b-button to="/modulos" variant="danger" class="btn btn-round">Cancelar</b-button>
-            <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
+            <b-button variant="success" class="btn btn-round" v-on:click="actualizar">Actualizar</b-button>
           </b-row>
     </template>
   </div>
@@ -135,11 +135,11 @@
 import firebase from 'firebase'
 import router from '@/router'
 const modulosRef = firebase.database().ref('modulo')
-const colecccionModuloRef = firebase.database().ref('coleccion_modulo')
-const storageRef = firebase.storage().ref()
+// const storageRef = firebase.storage().ref()
 export default {
   data () {
     return {
+      id: 0,
       titulo: '',
       descripcion: '',
       contenido1: '',
@@ -159,12 +159,28 @@ export default {
       preg3_alt1: '',
       preg3_alt2: '',
       preg3_alt3: '',
-      alt1: 'a1',
-      alt2: 'a1',
-      alt3: 'a1'
+      alt1: '',
+      alt2: '',
+      alt3: ''
     }
   },
-  name: 'nuevomodulo',
+  name: 'editarmodulo',
+  created () {
+    this.id = this.$route.params.id
+    const modulodata = modulosRef.child(this.id)
+    modulodata.on('value', snapshot => {
+      var modulo = snapshot.val()
+      this.titulo = modulo.titulo
+      this.descripcion = modulo.descripcion
+      this.imageData1 = modulo.picture
+      this.contenido1 = modulo.contenido.texto1
+      this.contenido2 = modulo.contenido.texto2
+      this.imageData2 = modulo.contenido.imagen1
+      this.imageData3 = modulo.contenido.imagen2
+      this.pregunta1 = modulo.pregunta1.pregunta
+      this.preg1_alt1 = modulo.pregunta1.alternativa1.nombre
+    })
+  },
   methods: {
     previewImage: function (evt) {
       var input = evt.target
@@ -196,82 +212,36 @@ export default {
         reader.readAsDataURL(input.files[0])
       }
     },
-    agregar () {
-      if (this.$refs.imagen1.files[0] === undefined || this.$refs.imagen2.files[0] === undefined || this.$refs.imagen3.files[0] === undefined ||
-        this.titulo === '' || this.descripcion === '' || this.contenido1 === '' || this.contenido2 === '' || this.pregunta1 === '' || this.pregunta2 === '' || this.preg1_alt1 === '' || this.preg1_alt2 === '' || this.preg1_alt3 === '' || this.preg2_alt1 === '' || this.preg2_alt2 === '' || this.preg2_alt3 === '' || this.preg3_alt1 === '' || this.preg3_alt2 === '' || this.preg3_alt3 === '') {
-        this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
-        return false
-      }
-      var filename1 = this.$refs.imagen1.files[0].name
-      var filename2 = this.$refs.imagen2.files[0].name
-      var filename3 = this.$refs.imagen3.files[0].name
-      var preg1alt1estado = this.alt1 === 'a1'
-      var preg1alt2estado = this.alt1 === 'a2'
-      var preg1alt3estado = this.alt1 === 'a3'
-      var preg2alt1estado = this.alt2 === 'a1'
-      var preg2alt2estado = this.alt2 === 'a2'
-      var preg2alt3estado = this.alt2 === 'a3'
-      var preg3alt1estado = this.alt3 === 'a1'
-      var preg3alt2estado = this.alt3 === 'a2'
-      var preg3alt3estado = this.alt3 === 'a3'
-      const ti = this.titulo
-      const des = this.descripcion
-      const i1 = this.imageData1
-      const i2 = this.imageData2
-      const i3 = this.imageData3
-      const c1 = this.contenido1
-      const c2 = this.contenido2
-      const p1 = this.pregunta1
-      const p2 = this.pregunta2
-      const p3 = this.pregunta3
-      const p1a1 = this.preg1_alt1
-      const p1a2 = this.preg1_alt2
-      const p1a3 = this.preg1_alt3
-      const p2a1 = this.preg2_alt1
-      const p2a2 = this.preg2_alt2
-      const p2a3 = this.preg2_alt3
-      const p3a1 = this.preg3_alt1
-      const p3a2 = this.preg3_alt2
-      const p3a3 = this.preg3_alt3
-      storageRef.child('modulos/' + filename1).putString(i1, 'data_url').then(function (snapshot) {
-        snapshot.ref.getDownloadURL().then(function (image1) {
-          modulosRef.push({titulo: ti, descripcion: des, picture: image1}).then((snapshot) => {
-            const key = snapshot.key
-            storageRef.child('modulos/' + filename2).putString(i2, 'data_url').then(function (snapshot) {
-              snapshot.ref.getDownloadURL().then(function (image2) {
-                modulosRef.child(key).child('contenido').set({texto1: c1, imagen1: image2, texto2: c2})
-              })
-            })
-            storageRef.child('modulos/' + filename3).putString(i3, 'data_url').then(function (snapshot) {
-              snapshot.ref.getDownloadURL().then(function (image3) {
-                modulosRef.child(key).child('contenido').update({imagen2: image3})
-              })
-            })
-            modulosRef.child(key).child('pregunta1').set({pregunta: p1, alternativa1: {nombre: p1a1, estado: preg1alt1estado}, alternativa2: {nombre: p1a2, estado: preg1alt2estado}, alternativa3: {nombre: p1a3, estado: preg1alt3estado}})
-            modulosRef.child(key).child('pregunta2').set({pregunta: p2, alternativa1: {nombre: p2a1, estado: preg2alt1estado}, alternativa2: {nombre: p2a2, estado: preg2alt2estado}, alternativa3: {nombre: p2a3, estado: preg2alt3estado}})
-            modulosRef.child(key).child('pregunta3').set({pregunta: p3, alternativa1: {nombre: p3a1, estado: preg3alt1estado}, alternativa2: {nombre: p3a2, estado: preg3alt2estado}, alternativa3: {nombre: p3a3, estado: preg3alt3estado}})
-            colecccionModuloRef.once('value').then(function (snap) {
-              snap.forEach(function (childSnap) {
-                colecccionModuloRef.child(childSnap.key).child(key).set(true)
-              })
-            })
-          })
+    actualizar () {
+      // var filename = this.$refs.imagen.files[0].name
+      /*  var tit = this.titulo
+      var desc = this.descripcion
+      var ing = this.ingredientes
+      var cont = this.contenido
+      var uid = this.id
+      recetasRef.child(uid).update({titulo: tit, descripcion: desc, ingredientes: ing, contenido: cont}) */
+      router.push('/recetas')
+      /* var storageRef = firebase.storage().ref().child('imagenes/' + filename)
+      storageRef.putString(this.imageData, 'data_url').then(function (snapshot) {
+        snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          recetasRef.child(uid).update({titulo: tit, descripcion: desc, ingredientes: ing, contenido: cont})
         })
-      })
-      router.push('/modulos')
+      }) */
     }
   }
 }
 </script>
 <style scoped>
-  /*  input {
+    input {
     margin: 8px 0;
     width: 80%;
     padding: 10px;
-    }*/
-input {
-  font-size: 16px;
-}
+    }
+    textarea {
+    margin: 10px 0;
+    width: 80%;
+    padding: 10px;
+    }
     p {
     margin-top: 40px;
     font-size: 13px;

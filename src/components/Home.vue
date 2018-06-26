@@ -3,7 +3,7 @@
     <template>
       <card title="Lista de Usuarios"><br>
       <b-container>
-      <b-table fixed bordered hover :items="usuarios" :fields="fields" head-variant="light">
+      <b-table fixed bordered hover :items="usuarios" :fields="fields" head-variant="dark" class="text-center">
       </b-table>
     </b-container>
       </card>

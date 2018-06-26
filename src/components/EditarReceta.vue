@@ -16,8 +16,8 @@
           </div>
           </b-row><br>
            <b-row align-h="around">
-          <b-button variant="success" class="btn btn-round" v-on:click="actualizar">Actualizar</b-button>
           <b-button to="/recetas" variant="danger" class="btn btn-round">Cancelar</b-button>
+          <b-button variant="success" class="btn btn-round" v-on:click="actualizar">Actualizar</b-button>
         </b-row>
     </b-container>
       </card>

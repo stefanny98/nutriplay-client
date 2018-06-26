@@ -20,8 +20,11 @@ import EditarReceta from '@/components/EditarReceta'
 import EditarJuego from '@/components/EditarJuego'
 import EditarAlimento from '@/components/EditarAlimento'
 import EditarTip from '@/components/EditarTip'
+import EditarModulo from '@/components/EditarModulo'
 import UsuarioHome from '@/components/UsuarioHome'
 import UsuarioPerfil from '@/components/UsuarioPerfil'
+import UsuarioReceta from '@/components/UsuarioReceta'
+import UsuarioRecetaDetalle from '@/components/UsuarioRecetaDetalle'
 import firebase from 'firebase'
 Vue.use(Router)
 
@@ -121,6 +124,12 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
+      path: '/modulos/:id',
+      name: 'Editar Modulo',
+      component: EditarModulo,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/juegos',
       name: 'Juegos',
       component: Juego,
@@ -140,7 +149,7 @@ const router = new Router({
     },
     {
       path: '/paginaprincipal',
-      name: 'UsuarioHome',
+      name: 'Inicio',
       component: UsuarioHome,
       meta: { requiresAuth: true }
     },
@@ -148,6 +157,18 @@ const router = new Router({
       path: '/perfil',
       name: 'Mi Perfil',
       component: UsuarioPerfil,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/misrecetas',
+      name: 'Tienda de Recetas',
+      component: UsuarioReceta,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/recetadetalle/:id',
+      name: 'Ver Receta',
+      component: UsuarioRecetaDetalle,
       meta: { requiresAuth: true }
     },
     {

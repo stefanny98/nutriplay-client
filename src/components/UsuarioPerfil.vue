@@ -7,38 +7,40 @@
       <div slot="image">
         <img :src="usuario.avatar" alt="...">
       </div>
-      <div>
-        <div class="author">
-          <img class="avatar" src="https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/componentes%2Fmodulo.png?alt=media&token=a667b784-b209-4975-bfa1-900402f6a9b6" alt="...">
-          <h4 class="title">{{ usuario.nombre }}
+      <div><br><br>
+        <div class="author"><br><br>
+          <h3 class="title">{{ usuario.nombre }}
             <br>
-            <a href="#">
               <small>{{ usuario.correo }}</small>
-            </a>
-          </h4>
+          </h3>
         </div>
         <p class="description text-center">
-          "I like the way you work it
-          <br> No diggity
-          <br> I wanna bag it up"
         </p>
       </div>
   </card>
       </div>
       <div class="col-xl-8 col-lg-7 col-md-6">
-        <card class="card" title="Actualizar Perfil">
-          <div class="row">
-          <div class="col-md-6">
-            <p-button type="info" round>
-            Actualizar Foto
-            </p-button>
-          </div>
-          <div class="col-md-6">
-            <p-button type="success" round>
-            Guardar Cambios
-            </p-button>
+        <card class="card">
+        <p class="title">Actualizar Perfil</p>
+        <b-container>
+        <div class="row">
+          <div class="col 12">
+             <input type="text"
+                      label="Nombre"
+                      placeholder="Nombre"
+                      v-model="usuario.nombre"/>
           </div>
         </div>
+      <b-row align-h="center">
+        <div class="row">
+          <div class="col-md-6">
+            <button @click='actualizar' class="btn btn-success" round>
+            Guardar Cambios
+            </button>
+          </div>
+        </div>
+      </b-row>
+    </b-container>
         </card>
       </div>
     </div>
@@ -48,24 +50,26 @@
 
 <script>
 import firebase from 'firebase'
+const usuarioRef = firebase.database().ref('usuario')
 export default {
   data () {
     return {
-      usuario: [],
-      imagenP: ''
+      usuario: []
     }
   },
   name: 'usuperfil',
   methods: {
+    actualizar () {
+      const userId = firebase.auth().currentUser.uid
+      usuarioRef.child(userId).update({nombre: this.usuario.nombre})
+    }
   },
   computed: {
   },
   created () {
     const userId = firebase.auth().currentUser.uid
-    const usuarioRef = firebase.database().ref('usuario').child(userId)
-    usuarioRef.on('value', snapshot => {
+    usuarioRef.child(userId).on('value', snapshot => {
       this.usuario = snapshot.val()
-      this.imagenP = snapshot.val().avatar
     }, errorObject => {
       console.log('Error: ' + errorObject.code)
     })
@@ -73,4 +77,10 @@ export default {
 }
 </script>
 <style scoped>
+p.title {
+  text-align:center;
+  font-size:2em;
+  margin:20px 0 20px 0;
+  font-family:Galada;
+}
 </style>

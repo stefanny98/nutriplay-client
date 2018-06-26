@@ -16,8 +16,8 @@
           </div>
           </b-row><br>
            <b-row align-h="around">
-          <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
           <b-button to="/recetas" variant="danger" class="btn btn-round">Cancelar</b-button>
+          <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
         </b-row>
       </b-container>
     </card>
@@ -53,6 +53,11 @@ export default {
       }
     },
     agregar () {
+      if (this.$refs.imagen.files[0] === undefined || this.titulo === '' || this.descripcion === '' || this.ingredientes === '' ||
+        this.contenido === '') {
+        this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
+        return false
+      }
       var filename = this.$refs.imagen.files[0].name
       var tit = this.titulo
       var desc = this.descripcion

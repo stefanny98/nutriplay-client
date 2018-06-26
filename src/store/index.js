@@ -44,7 +44,6 @@ export const store = new Vuex.Store({
       commit('setLoading', true)
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(
         user => {
-          console.log(user.user.uid)
           commit('setUser', user.user.uid)
           commit('setLoading', false)
           commit('setError', null)
@@ -84,7 +83,13 @@ export const store = new Vuex.Store({
           })
           var isNew = result.additionalUserInfo.isNewUser
           if (isNew) {
-            firebase.database().ref('usuario').child(user.uid).set({nombre: user.displayName, exp: 0, monedas: 0, avatar: user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null, correo: email})
+            firebase.database().ref('usuario').child(user.uid).set({nombre: user.displayName, exp: 0, monedas: 0, avatar: user.photoURL != null ? user.photoURL : null, correo: email != null ? email : null})
+            firebase.database().ref('receta').once('value').then(function (snap) {
+              snap.forEach(function (childSnap) {
+                var recetaid = childSnap.key
+                firebase.database().ref('coleccion_receta').child(user.uid).child(recetaid).set(false)
+              })
+            })
           }
           // router.push('/inicio')
           // Redirección

@@ -5,7 +5,7 @@
       <b-container>
           <b-row align-h="center">
         <b-button variant="success" to="/alimentos/nuevo">Nuevo alimento</b-button></b-row><br>
-      <b-table class="myTable" fixed bordered hover :items="alimentos" :fields="fields" head-variant="dark">
+      <b-table fixed bordered hover :items="alimentos" :fields="fields" head-variant="dark" class="text-center">
         <span slot="acciones" slot-scope="data">
           <b-button variant="warning" :to="{ name: 'Editar Alimento', params: { id: data.item['.key'] } }"><span class="ti-pencil"></span></b-button>
           <b-button v-on:click="eliminar(data.item['.key'])" variant="danger"><span class="ti-trash"></span></b-button>
@@ -29,7 +29,20 @@ export default {
   name: 'alimento',
   methods: {
     eliminar (uid) {
-      alimentosRef.child(uid).remove()
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: 'El alimento se eliminará de la lista.',
+        icon: 'warning',
+        buttons: {
+          cancel: {text: 'Cancelar', value: false, visible: true, className: 'btncancelar', closeModal: true},
+          confirm: {text: 'Aceptar', value: true, visible: true, className: 'btnaceptar', closeModal: true}
+        }
+      }).then((result) => {
+        if (result) {
+          alimentosRef.child(uid).remove()
+          this.$swal('El registro se eliminó.')
+        }
+      })
     }
   },
   firebase: {
@@ -38,7 +51,4 @@ export default {
 }
 </script>
 <style scoped>
-.myTable thead {
-   background-color: #08AB06;
-}
 </style>

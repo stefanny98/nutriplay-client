@@ -1,38 +1,16 @@
 <template>
   <div :class="{'nav-open': $sidebar.showSidebar}">
   <div id='app' class='wrapper'>
-  <!--  <b-navbar toggleable='md' type='dark' variant='info'>
-
-  <b-navbar-toggle target='nav_collapse'></b-navbar-toggle>
-
-  <b-navbar-brand>{{ appTitle }}</b-navbar-brand>
-
-  <b-collapse is-nav id='nav_collapse'>
-
-    <b-navbar-nav>
-      <div v-for='item in menuItems'>
-      <b-nav-item :to='item.path'>
-     {{ item.title }}
-    </b-nav-item>
-  </div>
-  <b-nav-item v-if='isAuth' @click='signout'>Salir</b-nav-item>
-    </b-navbar-nav>
-  </b-collapse>
-</b-navbar>
-    <router-view/>
-  </div>  -->
   <side-bar>
       <template slot='links'>
         <li class="nav-item" v-for="route in menuItems">
-    <router-link :to="route.path" class="nav-link" active-class="active">
-        {{ route.title }}
-    </router-link>
-</li>
-     <!--   <template v-for='item in menuItems'>
-     <li class="nav-item">  <a class="nav-link" :to='item.path' :name='item.title'></a></li>
-       <sidebar-link :to='item.path' :name='item.title' :icon='item.icon'/>
-      </template> -->
-      <b-container><br>
+        <router-link :to="route.path" class="nav-link">
+          <i :class="route.icon"></i>
+           <h5> {{ route.title }} </h5>
+        </router-link>
+        </li>
+      <br>
+      <b-container>
         <b-row align-h="around">
         <button v-if='isAuth' @click='signout' type="button" class="btn btn-info">Salir</button>
       </b-row>
@@ -41,11 +19,12 @@
       <mobile-menu>
       </mobile-menu>
     </side-bar>
-    <div class='main-panel'>
-      <top-navbar></top-navbar>
+    <div class='main-panel' v-bind:class="{'navlogin': !isAuth}">
+      <top-navbar v-if='isAuth'></top-navbar>
        <dashboard-content @click.native="toggleSidebar">
       </dashboard-content>
-      <content-footer></content-footer>
+      <br>
+      <content-footer v-if='isAuth'></content-footer>
     </div>
 </div>
 </div>
@@ -57,9 +36,9 @@ import DashboardContent from './layout/dashboard/Content.vue'
 import MobileMenu from './layout/dashboard/MobileMenu'
 import firebase from 'firebase'
 import schedule from 'node-schedule'
-console.log('scheduuule')
+
 schedule.scheduleJob('48 14 * * *', () => {
-  console.log('hellooo world')
+  console.log('probando schedule')
 })
 firebase.initializeApp({
   apiKey: 'AIzaSyBjdHVqfpCeQaNq09nPTCQgev1IR-Kx8i4',
@@ -73,6 +52,7 @@ firebase.initializeApp({
 export default {
   data () {
     return {
+      navlogin: false
     }
   },
   components: {
@@ -95,8 +75,7 @@ export default {
       return this.$store.state.admin
     },
     menuItems () {
-      /* if (this.isAuth) {
-        console.log(this.isAdmin)
+      if (this.isAuth) {
         if (this.isAdmin == null) {
           return [ ]
         } else if (this.isAdmin) {
@@ -111,34 +90,10 @@ export default {
         } else {
           return [
             {title: 'Inicio', path: '/paginaprincipal', icon: 'ti-home'},
+            {title: 'Recetas', path: '/misrecetas', icon: 'ti-notepad'},
             {title: 'Perfil', path: '/perfil', icon: 'ti-user'}
           ]
-        } */
-      if (this.isAuth && this.isAdmin) {
-        console.log('Administrador')
-        return [
-          {title: 'Usuarios', path: '/usuarios', icon: 'ti-user'},
-          {title: 'Recetas', path: '/recetas', icon: 'ti-notepad'},
-          {title: 'Juegos', path: '/juegos', icon: 'ti-face-smile'},
-          {title: 'Alimentos', path: '/alimentos', icon: 'ti-bag'},
-          {title: 'Modulos', path: '/modulos', icon: 'ti-bookmark-alt'},
-          {title: 'Tips', path: '/tips', icon: 'ti-check-box'}
-        ]
-      } else if (this.isAuth && !this.isAdmin) {
-        console.log('Usuarios')
-        return [
-          {title: 'Inicio', path: '/paginaprincipal', icon: 'ti-home'},
-          {title: 'Perfil', path: '/perfil', icon: 'ti-user'}
-        ]
-      } else if (!this.isAuth) {
-        console.log('No autorizado')
-        return [
-          {title: 'Bienvenido', path: '/bienvenido', icon: 'ti-user'},
-          {title: 'Login', path: '/login', icon: 'ti-user'},
-          {title: 'Registro', path: '/registro', icon: 'ti-user'}
-        ]
-      } else {
-        return [ ]
+        }
       }
     }
   },
@@ -155,4 +110,60 @@ export default {
 }
 </script>
 <style lang="scss">
+.table {
+  .thead-dark {
+    th {
+      background-color: #83bf21;
+      border-color: #83bf21;
+    }
+  }
+}
+div.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.table#naranja {
+  .thead-dark {
+    th {
+      background-color: #FF9800;
+      border-color: #FF9800;
+    }
+  }
+}
+.main-panel.navlogin {
+      position: absolute;
+      left: 0;
+    //  @include transform-translate-3d(-220px);
+    //  @include transition (0.5s, cubic-bezier(0.685, 0.0473, 0.346, 1));
+    }
+
+.main-panel.navlogin {
+    width: 100%;
+    max-height: 100vh;
+    overflow: scroll;
+  //  @include transform-translate-3d(0px);
+  //  @include transition (0.5s, cubic-bezier(0.685, 0.0473, 0.346, 1));
+  }
+ input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 80%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 17px;
+  border-radius: 10px;
+}
+    textarea {
+    outline: 0;
+    background: #f2f2f2;
+    width: 80%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 10px;
+    }
 </style>

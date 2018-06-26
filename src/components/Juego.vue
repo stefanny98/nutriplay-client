@@ -7,7 +7,7 @@
         <b-button variant="success" to="/juegos/nuevo">Nuevo Juego</b-button>
       </b-row>
       <br>
-     <b-table fixed bordered small hover :items="juegos" :fields="fields" head-variant="light">
+     <b-table fixed bordered small hover :items="juegos" :fields="fields" head-variant="dark" class="text-center">
         <template slot="estado" slot-scope="data">
         <div v-if="data.item.estado">Verdadero</div>
           <div v-else>Falso</div>
@@ -36,11 +36,24 @@ export default {
   name: 'juego',
   methods: {
     eliminar (uid) {
-      juegosRef.child(uid).remove()
-      coleccionjuegosRef.once('value').then(function (snap) {
-        snap.forEach(function (childSnap) {
-          coleccionjuegosRef.child(childSnap.key).child(uid).remove()
-        })
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: 'El juego se eliminará de la lista.',
+        icon: 'warning',
+        buttons: {
+          cancel: {text: 'Cancelar', value: false, visible: true, className: 'btncancelar', closeModal: true},
+          confirm: {text: 'Aceptar', value: true, visible: true, className: 'btnaceptar', closeModal: true}
+        }
+      }).then((result) => {
+        if (result) {
+          juegosRef.child(uid).remove()
+          coleccionjuegosRef.once('value').then(function (snap) {
+            snap.forEach(function (childSnap) {
+              coleccionjuegosRef.child(childSnap.key).child(uid).remove()
+            })
+          })
+          this.$swal('El registro se eliminó.')
+        }
       })
     }
   },

@@ -8,7 +8,7 @@
         </b-row>
           <br>
           <div slot="raw-content" class="table-responsive">
-            <b-table fixed bordered hover :items="recetas" :fields="fields" head-variant="light">
+            <b-table fixed bordered hover :items="recetas" :fields="fields" head-variant="dark" class="text-center">
          <span slot="acciones" slot-scope="data">
           <b-button variant="warning" :to="{ name: 'Editar Receta', params: { id: data.item['.key'] } }"><span class="ti-pencil"></span></b-button>
           <b-button v-on:click="eliminar(data.item['.key'])" variant="danger"><span class="ti-trash"></span></b-button>
@@ -25,15 +25,6 @@
 import firebase from 'firebase'
 let recetasRef = firebase.database().ref('receta')
 let coleccionRecetaRef = firebase.database().ref('coleccion_receta')
-/* juegosRef.once('value').then(function (snapshot) {
-    snapshot.forEach(function (childSnapshot) {
-      console.log('id: ' + childSnapshot.key)
-      //console.log(childSnapshot.val())
-      var juego = childSnapshot.val()
-      juego.key = childSnapshot.key
-      this.datos.push(juego)
-    })
-    console.log(datos) */
 export default {
   data () {
     return {
@@ -43,15 +34,28 @@ export default {
   name: 'receta',
   methods: {
     eliminar (uid) {
-      recetasRef.child(uid).once('value').then(function (snap) {
-        let imagenRef = firebase.storage().refFromURL(snap.val().imagen)
-        imagenRef.delete()
-      })
-      recetasRef.child(uid).remove()
-      coleccionRecetaRef.once('value').then(function (snap) {
-        snap.forEach(function (childSnap) {
-          coleccionRecetaRef.child(childSnap.key).child(uid).remove()
-        })
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: 'La receta se eliminará de la lista.',
+        icon: 'warning',
+        buttons: {
+          cancel: {text: 'Cancelar', value: false, visible: true, className: 'btncancelar', closeModal: true},
+          confirm: {text: 'Aceptar', value: true, visible: true, className: 'btnaceptar', closeModal: true}
+        }
+      }).then((result) => {
+        if (result) {
+          recetasRef.child(uid).once('value').then(function (snap) {
+            let imagenRef = firebase.storage().refFromURL(snap.val().imagen)
+            imagenRef.delete()
+          })
+          recetasRef.child(uid).remove()
+          coleccionRecetaRef.once('value').then(function (snap) {
+            snap.forEach(function (childSnap) {
+              coleccionRecetaRef.child(childSnap.key).child(uid).remove()
+            })
+          })
+          this.$swal('El registro se eliminó.')
+        }
       })
     }
   },

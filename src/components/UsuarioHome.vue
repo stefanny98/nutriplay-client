@@ -2,7 +2,7 @@
   <div class="usuhome">
     <template>
       <b-container>
-       <h2>Bienvenid@ {{ usuario.nombre }}</h2><br>
+       <p class="verde">Bienvenid@ {{ usuario.nombre }}</p><br>
     </b-container>
     <div class="row">
       <div class="col-md-6 col-xl-4" v-for="stats in statsCards" :key="stats.title">
@@ -17,6 +17,34 @@
         </stats-card>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-6">
+        <card>
+        <b-container>
+          <p class="verde sub">Tip del día</p>
+          <b-row align-h="center">
+          <img class="tipimg" src="https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/avatares%2Fav2.png?alt=media&token=0d611b31-45e4-4e98-b194-143bf5efc166"/>
+          </b-row>
+           <b-row align-h="center">
+          <h5>{{ tip.mensaje }}</h5>
+        </b-row>
+      </b-container>
+        </card>
+      </div>
+      <div class="col-md-6">
+        <card>
+        <b-container>
+          <p class="verde sub">Alimento del día</p>
+          <b-row align-h="center">
+          <img class="tipimg" src="https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/avatares%2Fav5.png?alt=media&token=030f5bb6-7061-49c6-8a3a-c4d71d8d69f9"/>
+        </b-row>
+        <b-row align-h="center">
+          <h5>{{ alimento.mensaje }}</h5>
+        </b-row>
+      </b-container>
+        </card>
+      </div>
+    </div>
     </template>
   </div>
 </template>
@@ -24,6 +52,8 @@
 <script>
 import firebase from 'firebase'
 import { StatsCard } from '@/utils/index'
+const tipRef = firebase.database().ref('tip').child('1')
+const alimentoRef = firebase.database().ref('alimento').child('1')
 export default {
   components: {
     StatsCard
@@ -56,7 +86,9 @@ export default {
           footerText: 'In the last hour',
           footerIcon: 'ti-timer'
         }
-      ]
+      ],
+      tip: '',
+      alimento: ''
     }
   },
   name: 'usuhome',
@@ -74,6 +106,12 @@ export default {
     }, errorObject => {
       console.log('Error: ' + errorObject.code)
     })
+    tipRef.on('value', snapshot => {
+      this.tip = snapshot.val()
+    })
+    alimentoRef.on('value', snapshot => {
+      this.alimento = snapshot.val()
+    })
   }
 }
 </script>
@@ -83,4 +121,18 @@ export default {
     height: 70px;
     padding: 5px;
   }
+  .tipimg {
+    width: 30%;
+    height: 30%;
+  }
+  .verde {
+  text-align:center;
+  font-size:3em;
+  margin:20px 0 20px 0;
+  color:#83bf21;
+  font-family:Galada;
+}
+.verde.sub{
+  font-size:2em;
+}
 </style>

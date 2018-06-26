@@ -1,5 +1,5 @@
 <template>
-  <div class="nuevoalimento">
+  <div class="nuevotip">
     <template>
       <card>
         <b-container><br>
@@ -7,8 +7,8 @@
          <input type="text" v-model="mensaje" placeholder="Mensaje"><br>
           </b-row><br>
            <b-row align-h="around">
+          <b-button to="/tips" variant="danger" class="btn btn-round">Cancelar</b-button>
           <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
-          <b-button to="/alimentos" variant="danger" class="btn btn-round">Cancelar</b-button>
         </b-row><br>
       </b-container>
     </card>
@@ -26,9 +26,13 @@ export default {
       mensaje: ''
     }
   },
-  name: 'nuevoalimento',
+  name: 'nuevotip',
   methods: {
     agregar () {
+      if (this.mensaje === '') {
+        this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
+        return false
+      }
       tipRef.push({mensaje: this.mensaje})
       router.push('/tips')
     }
