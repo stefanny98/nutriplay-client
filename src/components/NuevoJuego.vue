@@ -2,7 +2,8 @@
   <div class="nuevojuego">
     <template>
       <card>
-      <b-container><br>
+      <b-container>
+        <p id="tituloverde">Nuevo Juego</p>
          <b-row align-h="center">
          <input type="text" v-model="titulo" placeholder="Titulo"/><br>
          <input type="text" v-model="pregunta" placeholder="Pregunta"/><br>
@@ -26,13 +27,11 @@
 
 <script>
 import firebase from 'firebase'
-import { ChartCard } from '@/utils/index'
 import router from '@/router'
 const juegosRef = firebase.database().ref('juego')
 const coleccionjuegosRef = firebase.database().ref('coleccion_juego')
 export default {
   components: {
-    ChartCard
   },
   data () {
     return {

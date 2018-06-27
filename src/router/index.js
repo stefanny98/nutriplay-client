@@ -37,7 +37,7 @@ const router = new Router({
     redirect: '/dashboard',
     children: [ */
     {
-      path: '/bienvenido',
+      path: '/',
       name: 'Bienvenido',
       component: HelloWorld
     },
@@ -45,7 +45,7 @@ const router = new Router({
       path: '/usuarios',
       name: 'Usuarios',
       component: Home,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/login',
@@ -61,91 +61,91 @@ const router = new Router({
       path: '/modulos',
       name: 'Modulos',
       component: Modulo,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/alimentos',
       name: 'Alimentos',
       component: Alimento,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/alimentos/nuevo',
       name: 'Nuevo Alimento',
       component: NuevoAlimento,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/alimentos/:id',
       name: 'Editar Alimento',
       component: EditarAlimento,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/tips',
       name: 'Tips',
       component: Tip,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/tips/nuevo',
       name: 'Nuevo Tip',
       component: NuevoTip,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/tips/:id',
       name: 'Editar Tip',
       component: EditarTip,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/recetas',
       name: 'Recetas',
       component: Receta,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/recetas/nuevo',
       name: 'Nueva Receta',
       component: NuevaReceta,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/recetas/:id',
       name: 'Editar Receta',
       component: EditarReceta,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/modulos/nuevo',
       name: 'NuevoModulo',
       component: NuevoModulo,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/modulos/:id',
       name: 'Editar Modulo',
       component: EditarModulo,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/juegos',
       name: 'Juegos',
       component: Juego,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/juegos/nuevo',
       name: 'Nuevo Juego',
       component: NuevoJuego,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/juegos/:id',
       name: 'Editar Juego',
       component: EditarJuego,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/paginaprincipal',
@@ -181,12 +181,18 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin)
   const isAuth = firebase.auth().currentUser
+  var isAdmin = false
+  if (isAuth) {
+    isAdmin = firebase.auth().currentUser.email === 'stef@gmail.com'
+  }
   if (requiresAuth && !isAuth) {
     next('/login')
+  } else if (requiresAuth && requiresAdmin && !isAdmin) {
+    next('/paginaprincipal')
   } else {
     next()
   }
 })
-
 export default router

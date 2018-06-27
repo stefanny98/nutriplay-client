@@ -110,7 +110,15 @@ export default {
 }
 </script>
 <style lang="scss">
-.table {
+p#tituloverde {
+  text-align:center;
+  font-size:3em;
+  margin:10px 0 10px 0;
+  color:#83bf21;
+  font-family:Galada;
+}
+
+.table#verde {
   .thead-dark {
     th {
       background-color: #83bf21;

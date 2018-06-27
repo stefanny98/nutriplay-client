@@ -2,7 +2,8 @@
   <div class="nuevotip">
     <template>
       <card>
-        <b-container><br>
+        <b-container>
+        <p id="tituloverde">Nuevo Tip</p>
         <b-row align-h="center">
          <input type="text" v-model="mensaje" placeholder="Mensaje"><br>
           </b-row><br>

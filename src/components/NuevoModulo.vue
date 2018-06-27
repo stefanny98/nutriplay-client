@@ -1,12 +1,15 @@
 <template>
   <div class="nuevomodulo">
     <template>
+      <p id="tituloverde">Nuevo Módulo</p>
       <div class="row">
       <div class="col-md-6">
       <card title="Detalle">
         <b-container>
           <b-row align-h="center">
-            <textarea rows="2" v-model="titulo" placeholder="Titulo"></textarea><br>
+            <textarea rows="2" v-model="titulo" placeholder="Titulo"></textarea>
+          </b-row><br>
+          <b-row align-h="center">
             <textarea rows="2" v-model="descripcion" placeholder="Descripcion"></textarea><br>
            </b-row><br>
         </b-container>
@@ -16,7 +19,9 @@
         <card title="Contenido">
         <b-container>
           <b-row align-h="center">
-           <textarea rows="2" v-model="contenido1" placeholder="Primer contenido"></textarea><br>
+           <textarea rows="2" v-model="contenido1" placeholder="Primer contenido"></textarea>
+           </b-row><br>
+          <b-row align-h="center">
            <textarea rows="2" v-model="contenido2" placeholder="Segundo contenido"></textarea><br>
           </b-row><br>
         </b-container>

@@ -2,7 +2,8 @@
   <div class="editartip">
     <template>
       <card>
-      <b-container><br>
+      <b-container>
+        <p id="tituloverde">Editar Tip</p>
          <b-row align-h="center">
          <input type="text" v-model="mensaje" placeholder="Mensaje"><br>
         </b-row><br>
@@ -38,6 +39,10 @@ export default {
   },
   methods: {
     actualizar () {
+      if (this.mensaje === '') {
+        this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
+        return false
+      }
       var uid = this.id
       tipRef.child(uid).update({mensaje: this.mensaje})
       router.push('/tips')

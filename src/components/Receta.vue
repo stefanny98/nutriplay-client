@@ -3,12 +3,13 @@
     <template>
       <card>
       <b-container>
+        <p id="tituloverde">Recetas</p>
         <b-row align-h="center">
           <b-button variant="success" to="/recetas/nuevo">Nueva Receta</b-button>
         </b-row>
           <br>
           <div slot="raw-content" class="table-responsive">
-            <b-table fixed bordered hover :items="recetas" :fields="fields" head-variant="dark" class="text-center">
+            <b-table fixed bordered hover :items="recetas" :fields="fields" head-variant="dark" class="text-center" id="verde">
          <span slot="acciones" slot-scope="data">
           <b-button variant="warning" :to="{ name: 'Editar Receta', params: { id: data.item['.key'] } }"><span class="ti-pencil"></span></b-button>
           <b-button v-on:click="eliminar(data.item['.key'])" variant="danger"><span class="ti-trash"></span></b-button>

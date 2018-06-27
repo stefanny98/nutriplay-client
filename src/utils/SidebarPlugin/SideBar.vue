@@ -11,7 +11,7 @@
       <div class='logo'>
         <a href='#' class='simple-text'>
             <div class='logo-img'>
-                <img src='@/assets/img/vue-logo.png' alt=''>
+                <img src='https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/imagenes%2Flogo-nutriplay1.png?alt=media&token=6b06a855-583e-4037-9785-fbb3bd80cde8' alt=''>
             </div>
           NutriPlay
         </a>

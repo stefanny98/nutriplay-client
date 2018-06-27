@@ -8,7 +8,7 @@
           <p id="verde">Mis Recetas</p>
           <br>
           <div slot="raw-content" class="table-responsive">
-            <b-table bordered hover :items="recetas" :fields="fields" head-variant="dark" class="text-center">
+            <b-table bordered hover :items="recetas" :fields="fields" head-variant="dark" class="text-center" id="verde">
          <span slot="acciones" slot-scope="data">
           <b-button variant="success" :to="{ name: 'Ver Receta', params: { id: data.item['key'] } }"><span class="ti-eye"></span></b-button>
          </span>

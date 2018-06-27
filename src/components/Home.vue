@@ -1,9 +1,10 @@
 <template>
   <div class="home">
     <template>
-      <card title="Lista de Usuarios"><br>
+      <card>
+        <p id="tituloverde">Usuarios</p><br>
       <b-container>
-      <b-table fixed bordered hover :items="usuarios" :fields="fields" head-variant="dark" class="text-center">
+      <b-table fixed bordered hover :items="usuarios" :fields="fields" head-variant="dark" class="text-center" id="verde">
       </b-table>
     </b-container>
       </card>

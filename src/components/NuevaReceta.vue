@@ -3,6 +3,7 @@
     <template>
       <card>
         <b-container>
+        <p id="tituloverde">Nueva Receta</p>
         <b-row align-h="center">
          <input type="text" v-model="titulo" placeholder="Titulo"><br>
          <input type="text" v-model="descripcion" placeholder="Descripcion"><br>

@@ -3,6 +3,7 @@
     <template>
       <card>
       <b-container>
+        <p id="tituloverde">Editar Juego</p>
          <b-row align-h="center">
          <input type="text" v-model="titulo" placeholder="Titulo"><br>
          <input type="text" v-model="pregunta" placeholder="Descripcion"><br>
@@ -41,7 +42,6 @@ export default {
   name: 'editarjuego',
   created () {
     this.id = this.$route.params.id
-    console.log(this.id)
     const juegodata = juegosRef.child(this.id)
     juegodata.on('value', snapshot => {
       var juego = snapshot.val()
@@ -53,6 +53,10 @@ export default {
   },
   methods: {
     actualizar () {
+      if (this.titulo === '' || this.pregunta === '' || this.respuesta === '') {
+        this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
+        return false
+      }
       var uid = this.id
       juegosRef.child(uid).update({titulo: this.titulo, pregunta: this.pregunta, respuesta: this.respuesta, estado: this.estado})
       router.push('/juegos')

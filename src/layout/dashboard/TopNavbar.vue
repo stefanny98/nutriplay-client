@@ -19,7 +19,8 @@
 export default {
   computed: {
     routeName () {
-      const { name } = this.$route
+      var { name } = this.$route
+      name = name === null ? 'nutriplay' : name
       return this.capitalizeFirstLetter(name)
     }
   },

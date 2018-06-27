@@ -1,6 +1,8 @@
 @media (min-width: 992px) {
+/* topnavbar no visible cuando la pantalla es grande */
   .navbar {
     min-height: 75px;
+    display: none;
   }
   .navbar-nav.nav-mobile-menu{
     display: none;
@@ -85,6 +87,11 @@
 /*          Changes for small display      */
 
 @media (max-width: 991px) {
+/* topnavbar visible cuando la pantalla es pequeña */
+  .navbar {
+      min-height: 75px;
+      display: block;
+  }
   .nav-open {
     .main-panel {
       position: absolute;

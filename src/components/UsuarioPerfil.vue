@@ -30,7 +30,7 @@
                       placeholder="Nombre"
                       v-model="usuario.nombre"/>
           </div>
-        </div>
+        </div><br>
       <b-row align-h="center">
         <div class="row">
           <div class="col-md-6">

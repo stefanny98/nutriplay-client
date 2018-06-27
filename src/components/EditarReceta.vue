@@ -3,6 +3,7 @@
     <template>
       <card>
       <b-container>
+        <p id="tituloverde">Editar Receta</p>
          <b-row align-h="center">
          <input type="text" v-model="titulo" placeholder="Titulo"><br>
          <input type="text" v-model="descripcion" placeholder="Descripcion"><br>
@@ -37,7 +38,9 @@ export default {
       titulo: '',
       descripcion: '',
       ingredientes: '',
-      contenido: ''
+      contenido: '',
+      imagen: '',
+      imagenueva: false
     }
   },
   name: 'editarreceta',
@@ -51,6 +54,7 @@ export default {
       this.ingredientes = receta.ingredientes
       this.contenido = receta.contenido
       this.imageData = receta.imagen
+      this.imagen = receta.imagen
     })
   },
   methods: {
@@ -60,25 +64,38 @@ export default {
         var reader = new FileReader()
         reader.onload = (e) => {
           this.imageData = e.target.result
+          this.imagenueva = true
         }
         reader.readAsDataURL(input.files[0])
       }
     },
     actualizar () {
-      // var filename = this.$refs.imagen.files[0].name
+      if (this.titulo === '' || this.descripcion === '' || this.ingredientes === '' || this.contenido === '') {
+        this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
+        return false
+      }
+      var filename
+      if (this.$refs.imagen.files[0] !== undefined) {
+        filename = this.$refs.imagen.files[0].name
+      }
       var tit = this.titulo
       var desc = this.descripcion
+      var img = this.imageData
       var ing = this.ingredientes
       var cont = this.contenido
       var uid = this.id
+      var imgnueva = this.imagenueva
+      if (imgnueva) {
+        firebase.storage().refFromURL(this.imagen).delete()
+        var storageRef = firebase.storage().ref().child('imagenes/' + filename)
+        storageRef.putString(img, 'data_url').then(function (snapshot) {
+          snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            recetasRef.child(uid).update({imagen: downloadURL})
+          })
+        })
+      }
       recetasRef.child(uid).update({titulo: tit, descripcion: desc, ingredientes: ing, contenido: cont})
       router.push('/recetas')
-      /* var storageRef = firebase.storage().ref().child('imagenes/' + filename)
-      storageRef.putString(this.imageData, 'data_url').then(function (snapshot) {
-        snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          recetasRef.child(uid).update({titulo: tit, descripcion: desc, ingredientes: ing, contenido: cont})
-        })
-      })  */
     }
   }
 }

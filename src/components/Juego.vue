@@ -3,11 +3,12 @@
     <template>
       <card>
       <b-container>
+        <p id="tituloverde">Juegos</p>
          <b-row align-h="center">
         <b-button variant="success" to="/juegos/nuevo">Nuevo Juego</b-button>
       </b-row>
       <br>
-     <b-table fixed bordered small hover :items="juegos" :fields="fields" head-variant="dark" class="text-center">
+     <b-table fixed bordered small hover :items="juegos" :fields="fields" head-variant="dark" class="text-center" id="verde">
         <template slot="estado" slot-scope="data">
         <div v-if="data.item.estado">Verdadero</div>
           <div v-else>Falso</div>
