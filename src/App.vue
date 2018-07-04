@@ -12,7 +12,7 @@
       <br>
       <b-container>
         <b-row align-h="around">
-        <button v-if='isAuth' @click='signout' type="button" class="btn btn-info">Salir</button>
+        <button v-if='isAuth' @click='signout' type="button" class="btn btn-info">Cerrar Sesión</button>
       </b-row>
       </b-container>
       </template>
@@ -35,11 +35,11 @@ import ContentFooter from './layout/dashboard/ContentFooter.vue'
 import DashboardContent from './layout/dashboard/Content.vue'
 import MobileMenu from './layout/dashboard/MobileMenu'
 import firebase from 'firebase'
-import schedule from 'node-schedule'
-
+// import schedule from 'node-schedule'
+/*
 schedule.scheduleJob('48 14 * * *', () => {
   console.log('probando schedule')
-})
+}) */
 firebase.initializeApp({
   apiKey: 'AIzaSyBjdHVqfpCeQaNq09nPTCQgev1IR-Kx8i4',
   authDomain: 'nutriplayapp.firebaseapp.com',
@@ -91,6 +91,7 @@ export default {
           return [
             {title: 'Inicio', path: '/paginaprincipal', icon: 'ti-home'},
             {title: 'Recetas', path: '/misrecetas', icon: 'ti-notepad'},
+            {title: 'Ranking', path: '/ranking', icon: 'ti-star'},
             {title: 'Perfil', path: '/perfil', icon: 'ti-user'}
           ]
         }
@@ -140,16 +141,12 @@ div.card {
 .main-panel.navlogin {
       position: absolute;
       left: 0;
-    //  @include transform-translate-3d(-220px);
-    //  @include transition (0.5s, cubic-bezier(0.685, 0.0473, 0.346, 1));
     }
 
 .main-panel.navlogin {
     width: 100%;
     max-height: 100vh;
     overflow: scroll;
-  //  @include transform-translate-3d(0px);
-  //  @include transition (0.5s, cubic-bezier(0.685, 0.0473, 0.346, 1));
   }
  input {
   font-family: "Roboto", sans-serif;

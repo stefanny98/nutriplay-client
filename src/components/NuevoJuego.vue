@@ -11,9 +11,19 @@
           </b-row><br>
          <b-row align-h="center">
          <b-form-radio-group v-model="estado">
-         <b-form-radio value=true>Verdadero</b-form-radio>
-         <b-form-radio value=false>Falso</b-form-radio>
+         <b-form-radio :value="true">Verdadero</b-form-radio>
+         <b-form-radio :value="false">Falso</b-form-radio>
          </b-form-radio-group>
+          </b-row><br>
+          <b-row align-h="center">
+          <h6>Dificultad</h6>
+          </b-row>
+          <b-row align-h="center">
+           <b-form-radio-group v-model="tipo">
+           <b-form-radio value="facil">Fácil</b-form-radio>
+           <b-form-radio value="intermedio">Intermedio</b-form-radio>
+           <b-form-radio value="dificil">Difícil</b-form-radio>
+           </b-form-radio-group>
           </b-row><br>
            <b-row align-h="around">
           <b-button to="/juegos" variant="danger" class="btn btn-round">Cancelar</b-button>
@@ -38,7 +48,8 @@ export default {
       titulo: '',
       pregunta: '',
       respuesta: '',
-      estado: true
+      estado: true,
+      tipo: 'facil'
     }
   },
   name: 'nuevojuego',
@@ -48,7 +59,15 @@ export default {
         this.$swal('Campos Incompletos', 'Complete todos los campos.', 'warning')
         return false
       }
-      juegosRef.push({titulo: this.titulo, pregunta: this.pregunta, respuesta: this.respuesta, estado: this.estado}).then(
+      var puntos
+      if (this.tipo === 'facil') {
+        puntos = 10
+      } else if (this.tipo === 'intermedio') {
+        puntos = 20
+      } else {
+        puntos = 40
+      }
+      juegosRef.push({titulo: this.titulo, pregunta: this.pregunta, respuesta: this.respuesta, estado: this.estado, tipo: this.tipo, puntos: puntos}).then(
         (snapshot) => {
           const key = snapshot.key
           coleccionjuegosRef.once('value').then(function (snap) {

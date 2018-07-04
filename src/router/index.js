@@ -25,6 +25,7 @@ import UsuarioHome from '@/components/UsuarioHome'
 import UsuarioPerfil from '@/components/UsuarioPerfil'
 import UsuarioReceta from '@/components/UsuarioReceta'
 import UsuarioRecetaDetalle from '@/components/UsuarioRecetaDetalle'
+import UsuarioRanking from '@/components/UsuarioRanking'
 import firebase from 'firebase'
 Vue.use(Router)
 
@@ -172,6 +173,12 @@ const router = new Router({
       meta: { requiresAuth: true }
     },
     {
+      path: '/ranking',
+      name: 'Ranking',
+      component: UsuarioRanking,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '*',
       component: NotFound
     }
@@ -185,7 +192,7 @@ router.beforeEach((to, from, next) => {
   const isAuth = firebase.auth().currentUser
   var isAdmin = false
   if (isAuth) {
-    isAdmin = firebase.auth().currentUser.email === 'stef@gmail.com'
+    isAdmin = firebase.auth().currentUser.email === 'nutriplayadmin@gmail.com'
   }
   if (requiresAuth && !isAuth) {
     next('/login')

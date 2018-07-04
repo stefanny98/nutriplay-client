@@ -25,7 +25,7 @@
           <div slot="raw-content" class="table-responsive">
             <b-table bordered hover :items="tienda" :fields="fields" head-variant="dark" class="text-center" id="naranja">
          <span slot="acciones" slot-scope="data">
-          <b-button variant="success" @click="alerta(data.item['key'])">{{ data.item['moneda'] }}<span class="ti-money"></span></b-button>
+          <b-button variant="success" @click="alerta(data.item['key'],data.item['moneda'])">{{ data.item['moneda'] }}<span class="ti-money"></span></b-button>
          </span>
       </b-table>
           </div>
@@ -40,6 +40,7 @@
 <script>
 import firebase from 'firebase'
 let recetasRef = firebase.database().ref('receta')
+let usuarioRef = firebase.database().ref('usuario')
 let coleccionRecetaRef = firebase.database().ref('coleccion_receta')
 export default {
   data () {
@@ -52,7 +53,7 @@ export default {
   },
   name: 'receta',
   methods: {
-    alerta (idreceta) {
+    alerta (idreceta, valorReceta) {
       const userId = firebase.auth().currentUser.uid
       this.$swal({
         title: '¿Estás seguro?',
@@ -75,52 +76,48 @@ export default {
           }
         }
       }).then((result) => {
-        console.log(result)
         if (result) {
-          coleccionRecetaRef.child(userId).child(idreceta).set(true)
-          this.$swal('Gracias por tu compra.')
+          if (this.usuario.monedas >= valorReceta) {
+            const total = this.usuario.monedas - valorReceta
+            usuarioRef.child(userId).update({monedas: total})
+            coleccionRecetaRef.child(userId).child(idreceta).set(true)
+            this.$swal('Gracias por tu compra.')
+          } else {
+            this.$swal('Insuficientes monedas', 'No tienes suficientes monedas para comprar esta receta.', 'warning')
+          }
         }
       })
     }
   },
   created () {
-    var coleccionRecetas = this.recetas
-    var tienda = this.tienda
+    var context = this
     const userId = firebase.auth().currentUser.uid
-    const usuarioRef = firebase.database().ref('usuario').child(userId)
-    usuarioRef.on('value', snapshot => {
+    usuarioRef.child(userId).on('value', snapshot => {
       this.usuario = snapshot.val()
     }, errorObject => {
       console.log('Error: ' + errorObject.code)
     })
-    coleccionRecetaRef.child(userId).once('value', snaps => {
-      snaps.forEach(function (childSnap) {
-        var estado = childSnap.val()
-        if (estado) {
-          recetasRef.child(childSnap.key).once('value', function (snap) {
-            var receta = snap.val()
-            receta.key = snap.key
-            coleccionRecetas.push(receta)
-          })
-        }
-      })
+    coleccionRecetaRef.child(userId).orderByValue().equalTo(true).on('value', snaps => {
+      context.recetas = snapshotToArray(snaps)
     }, errorObject => {
       console.log('Error: ' + errorObject.code)
     })
-    coleccionRecetaRef.child(userId).once('value', snaps => {
-      snaps.forEach(function (childSnap) {
-        var estado = childSnap.val()
-        if (!estado) {
-          recetasRef.child(childSnap.key).once('value', function (snap) {
-            var receta = snap.val()
-            receta.key = snap.key
-            tienda.push(receta)
-          })
-        }
-      })
+    coleccionRecetaRef.child(userId).orderByValue().equalTo(false).on('value', snaps => {
+      context.tienda = snapshotToArray(snaps)
     }, errorObject => {
       console.log('Error: ' + errorObject.code)
     })
+    function snapshotToArray (snapshot) {
+      var array = []
+      snapshot.forEach(function (childSnap) {
+        recetasRef.child(childSnap.key).once('value', function (snap) {
+          const receta = snap.val()
+          receta.key = snap.key
+          array.push(receta)
+        })
+      })
+      return array
+    }
   }
 }
 </script>

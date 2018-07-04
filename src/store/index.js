@@ -93,13 +93,19 @@ export const store = new Vuex.Store({
             firebase.database().ref('modulo').once('value').then(function (snap) {
               snap.forEach(function (childSnap) {
                 var moduloid = childSnap.key
-                firebase.database().ref('coleccion_modulo').child(user.uid).child(moduloid).set(true)
+                firebase.database().ref('coleccion_modulo').child(user.uid).child(moduloid).set(false)
               })
             })
             firebase.database().ref('juego').once('value').then(function (snap) {
               snap.forEach(function (childSnap) {
                 var juegoid = childSnap.key
                 firebase.database().ref('coleccion_juego').child(user.uid).child(juegoid).set(true)
+              })
+            })
+            firebase.database().ref('alimento').once('value').then(function (snap) {
+              snap.forEach(function (childSnap) {
+                var alimentoid = childSnap.key
+                firebase.database().ref('coleccion_alimento').child(user.uid).child(alimentoid).set(false)
               })
             })
           }

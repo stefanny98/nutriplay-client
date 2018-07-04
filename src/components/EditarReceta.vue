@@ -16,6 +16,13 @@
           <img class="preview" :src="imageData">
           </div>
           </b-row><br>
+          <b-row align-h="center">
+           <b-form-radio-group v-model="tipo">
+           <b-form-radio value="comun">Común</b-form-radio>
+           <b-form-radio value="especial">Especial</b-form-radio>
+           <b-form-radio value="mitico">Mítico</b-form-radio>
+           </b-form-radio-group>
+          </b-row><br>
            <b-row align-h="around">
           <b-button to="/recetas" variant="danger" class="btn btn-round">Cancelar</b-button>
           <b-button variant="success" class="btn btn-round" v-on:click="actualizar">Actualizar</b-button>
@@ -40,7 +47,8 @@ export default {
       ingredientes: '',
       contenido: '',
       imagen: '',
-      imagenueva: false
+      imagenueva: false,
+      tipo: 'comun'
     }
   },
   name: 'editarreceta',
@@ -55,6 +63,7 @@ export default {
       this.contenido = receta.contenido
       this.imageData = receta.imagen
       this.imagen = receta.imagen
+      this.tipo = receta.tipo
     })
   },
   methods: {
@@ -83,8 +92,17 @@ export default {
       var img = this.imageData
       var ing = this.ingredientes
       var cont = this.contenido
+      var tipo = this.tipo
       var uid = this.id
       var imgnueva = this.imagenueva
+      var monedas
+      if (tipo === 'comun') {
+        monedas = 100
+      } else if (tipo === 'especial') {
+        monedas = 200
+      } else {
+        monedas = 400
+      }
       if (imgnueva) {
         firebase.storage().refFromURL(this.imagen).delete()
         var storageRef = firebase.storage().ref().child('imagenes/' + filename)
@@ -94,7 +112,7 @@ export default {
           })
         })
       }
-      recetasRef.child(uid).update({titulo: tit, descripcion: desc, ingredientes: ing, contenido: cont})
+      recetasRef.child(uid).update({titulo: tit, descripcion: desc, ingredientes: ing, contenido: cont, tipo: tipo, moneda: monedas})
       router.push('/recetas')
     }
   }

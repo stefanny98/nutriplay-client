@@ -16,10 +16,17 @@
           <img class="preview" :src="imageData">
           </div>
           </b-row><br>
+          <b-row align-h="center">
+           <b-form-radio-group v-model="tipo">
+           <b-form-radio value="comun">Común</b-form-radio>
+           <b-form-radio value="especial">Especial</b-form-radio>
+           <b-form-radio value="mitico">Mítico</b-form-radio>
+           </b-form-radio-group>
+          </b-row><br>
            <b-row align-h="around">
           <b-button to="/recetas" variant="danger" class="btn btn-round">Cancelar</b-button>
           <b-button variant="success" class="btn btn-round" v-on:click="agregar">Aceptar</b-button>
-        </b-row>
+        </b-row><br>
       </b-container>
     </card>
     </template>
@@ -38,7 +45,8 @@ export default {
       titulo: '',
       descripcion: '',
       ingredientes: '',
-      contenido: ''
+      contenido: '',
+      tipo: 'comun'
     }
   },
   name: 'nuevareceta',
@@ -64,10 +72,19 @@ export default {
       var desc = this.descripcion
       var ing = this.ingredientes
       var cont = this.contenido
+      var tipo = this.tipo
+      var monedas
+      if (tipo === 'comun') {
+        monedas = 100
+      } else if (tipo === 'especial') {
+        monedas = 200
+      } else {
+        monedas = 400
+      }
       var storageRef = firebase.storage().ref().child('imagenes/' + filename)
       storageRef.putString(this.imageData, 'data_url').then(function (snapshot) {
         snapshot.ref.getDownloadURL().then(function (downloadURL) {
-          recetasRef.push({titulo: tit, descripcion: desc, imagen: downloadURL, ingredientes: ing, contenido: cont}).then((snapshot) => {
+          recetasRef.push({titulo: tit, descripcion: desc, imagen: downloadURL, ingredientes: ing, contenido: cont, tipo: tipo, moneda: monedas}).then((snapshot) => {
             const key = snapshot.key
             coleccionRecetaRef.once('value').then(function (snap) {
               snap.forEach(function (childSnap) {

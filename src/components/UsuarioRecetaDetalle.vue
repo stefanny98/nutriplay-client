@@ -6,7 +6,7 @@
         <card class="card-user">
       <div slot="image">
         <img :src="imageData" alt="...">
-      </div>
+      </div><br><br>
       <div><br><br>
         <div class="author">
           <p class="title">{{ titulo }}
@@ -84,8 +84,8 @@ export default {
       this.titulo = receta.titulo
       this.descripcion = receta.descripcion
       this.imageData = receta.imagen
-      this.ingredientes = receta.ingredientes.split(',')
-      this.contenido = receta.contenido.split(',')
+      this.ingredientes = receta.ingredientes.split('-')
+      this.contenido = receta.contenido.split('-')
     })
   }
 }

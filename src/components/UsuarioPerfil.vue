@@ -9,10 +9,8 @@
       </div>
       <div><br><br>
         <div class="author"><br><br>
-          <h3 class="title">{{ usuario.nombre }}
-            <br>
-              <small>{{ usuario.correo }}</small>
-          </h3>
+          <p class="title">{{ usuario.nombre }}</p>
+          <h4 class="title">{{ usuario.correo }}</h4>
         </div>
         <p class="description text-center">
         </p>
@@ -22,7 +20,7 @@
       <div class="col-xl-8 col-lg-7 col-md-6">
         <card class="card">
         <p class="title">Actualizar Perfil</p>
-        <b-container>
+        <b-container><br>
         <div class="row">
           <div class="col 12">
              <input type="text"
@@ -40,7 +38,7 @@
           </div>
         </div>
       </b-row>
-    </b-container>
+    </b-container><br>
         </card>
       </div>
     </div>
@@ -60,6 +58,10 @@ export default {
   name: 'usuperfil',
   methods: {
     actualizar () {
+      if (this.usuario.nombre === '') {
+        this.$swal('Campo Incompleto', 'El nombre de usuario no puede estar vacío.', 'warning')
+        return false
+      }
       const userId = firebase.auth().currentUser.uid
       usuarioRef.child(userId).update({nombre: this.usuario.nombre})
     }

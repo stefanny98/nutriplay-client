@@ -38,7 +38,7 @@ export default {
   computed: {
     error () {
       if (this.$store.state.error) {
-        this.$swal('Credenciales incorrectas', 'Ingrese sus credenciales correctamente.', 'warning')
+        this.$swal('Error', 'Ocurrió un error. Por favor inténtelo denuevo.', 'warning')
         this.$store.commit('setError', null)
       }
       return this.$store.state.error
@@ -62,20 +62,6 @@ export default {
 }
 </script>
 <style scoped>
-/*
-    input {
-    margin: 10px 0;
-    width: 60%;
-    padding: 15px;
-    }
-    p {
-    margin-top: 40px;
-    font-size: 13px;
-    }
-    p a {
-    text-decoration: underline;
-    cursor: pointer;
-    } */
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 .main-panel.navlogin {
   background-color: #76b852;
@@ -153,15 +139,5 @@ export default {
 }
 .container .info span .fa {
   color: #EF3B3A;
-}
-body {
-  background-color: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
-  font-family: "Roboto", sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 </style>

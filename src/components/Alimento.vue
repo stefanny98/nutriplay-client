@@ -20,7 +20,7 @@
 
 <script>
 import firebase from 'firebase'
-let alimentosRef = firebase.database().ref('alimento')
+let alimentosRef = firebase.database().ref('dato')
 export default {
   data () {
     return {

@@ -2,10 +2,10 @@
   <div class="usuhome">
     <template>
       <b-container>
-       <p class="verde">Bienvenid@ {{ usuario.nombre }}</p><br>
+       <p class="verde">Bienvenido(a) {{ usuario.nombre }}</p><br>
     </b-container>
     <div class="row">
-      <div class="col-md-6 col-xl-4" v-for="stats in statsCards" :key="stats.title">
+      <div class="col-md-6" v-for="stats in statsCards" :key="stats.title">
         <stats-card>
           <div class="icon-big text-center" :class="`icon-${stats.type}`" slot="header">
             <img :src="`${stats.img}`"/>
@@ -53,7 +53,7 @@
 import firebase from 'firebase'
 import { StatsCard } from '@/utils/index'
 const tipRef = firebase.database().ref('tip').child('1')
-const alimentoRef = firebase.database().ref('alimento').child('1')
+const alimentoRef = firebase.database().ref('dato').child('1')
 export default {
   components: {
     StatsCard
@@ -66,25 +66,13 @@ export default {
           type: 'warning',
           img: 'https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/componentes%2Fmoneda.png?alt=media&token=42b55de0-d216-4435-baa4-bd81aa3981b9',
           title: 'Monedas',
-          value: '',
-          footerText: 'Updated now',
-          footerIcon: 'ti-reload'
+          value: ''
         },
         {
           type: 'success',
           img: 'https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/componentes%2Fmodulo.png?alt=media&token=a667b784-b209-4975-bfa1-900402f6a9b6',
           title: 'Experiencia',
-          value: '',
-          footerText: 'Last day',
-          footerIcon: 'ti-calendar'
-        },
-        {
-          type: 'danger',
-          img: 'https://firebasestorage.googleapis.com/v0/b/nutriplayapp.appspot.com/o/componentes%2Fmoneda.png?alt=media&token=42b55de0-d216-4435-baa4-bd81aa3981b9',
-          title: 'Medallas',
-          value: '',
-          footerText: 'In the last hour',
-          footerIcon: 'ti-timer'
+          value: ''
         }
       ],
       tip: '',

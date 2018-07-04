@@ -31,6 +31,7 @@ export default {
   name: 'modulo',
   methods: {
     eliminar (uid) {
+      const context = this
       this.$swal({
         title: '¿Estás seguro?',
         text: 'El módulo se eliminará de la lista.',
@@ -54,17 +55,26 @@ export default {
       }).then((result) => {
         if (result) {
           modulosRef.child(uid).once('value').then(function (snap) {
-            firebase.storage().refFromURL(snap.val().picture).delete()
-            firebase.storage().refFromURL(snap.val().contenido.imagen1).delete()
-            firebase.storage().refFromURL(snap.val().contenido.imagen2).delete()
-          })
-          modulosRef.child(uid).remove()
-          coleccionModuloRef.once('value').then(function (snap) {
-            snap.forEach(function (childSnap) {
-              coleccionModuloRef.child(childSnap.key).child(uid).remove()
+            firebase.storage().refFromURL(snap.val().picture).delete().then(function () {
+              firebase.storage().refFromURL(snap.val().contenido.imagenPrincipal).delete().then(function () {
+                firebase.storage().refFromURL(snap.val().contenido.imagen1).delete().then(function () {
+                  firebase.storage().refFromURL(snap.val().contenido.imagen2).delete().then(function () {
+                    firebase.storage().refFromURL(snap.val().contenido.imagen3).delete().then(function () {
+                      firebase.storage().refFromURL(snap.val().contenido.imagen4).delete().then(function () {
+                        modulosRef.child(uid).remove()
+                        coleccionModuloRef.once('value').then(function (snap) {
+                          snap.forEach(function (childSnap) {
+                            coleccionModuloRef.child(childSnap.key).child(uid).remove()
+                          })
+                        })
+                        context.$swal('El registro se eliminó.')
+                      })
+                    })
+                  })
+                })
+              })
             })
           })
-          this.$swal('El registro se eliminó.')
         }
       })
     }
